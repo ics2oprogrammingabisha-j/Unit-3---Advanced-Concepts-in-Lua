@@ -1,51 +1,57 @@
 -----------------------------------------------------------------------------------------
 --
--- splash_screen.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This is the splash screen of the game. It displays the 
--- company logo that...
+-- intro_screen.lua
+-- Created by: Ms Raffin
+-- Date: Nov. 22nd, 2014
+-- Description: This is the splash screen of the game. It displays the app logo and the 
+-- company logo with some sort of animation...
 -----------------------------------------------------------------------------------------
 
 -- Use Composer Library
 local composer = require( "composer" )
 
+-- use the physics library
+local physics = require("physics")
+
 -- Name the Scene
 sceneName = "splash_screen"
-
------------------------------------------------------------------------------------------
 
 -- Create Scene Object
 local scene = composer.newScene( sceneName )
 
----------------------------------------------------------------------------------------------------
--- SOUNDS
---------------------------------------------------------------------------------------------------
-local DogBarkingSound = audio.loadSound( "Sounds/DogBarking.mp3") -- setting a variable to an mp3 file
-local DogBarkingSoundChannel
-local RocketshipSound = audio.loadSound( "Sounds/Rocketship.mp3") -- setting a variable to an mp3 file
-local RocketshipSoundChannel
+-----------------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
--- background image with width and height
-local CompLogo 
--- charector width and height
-local Rocketship 
 
---------------------------------------------------------------------------------------------
+local logo
+local bottom
+
+--Spring sound effect
+ local springsound = audio.loadSound( "Sounds/BoingSoundEffect.mp3" )
+ local springSoundChannel
+
+-----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
---------------------------------------------------------------------------------------------
--- The function that will go to the main menu 
+-----------------------------------------------------------------------------------------
+
 local function gotoMainMenu()
     composer.gotoScene( "main_menu" )
 end
 
-local function hideLogo()
-    CompLogo.isVisible = false
-    Rocketship.isVisible = false
+--When this function is called, play the springt sound effect
+ local function SpringSoundEffect( )
+    -- play sound
+    springSoundChannel = audio.play(springsound)
+ end
+
+--When the game starts, it waits and calls this function
+local function SplashStart( )
+    timer.performWithDelay(1950, SpringSoundEffect)
 end
+
+
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -57,11 +63,31 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    -- set the background to be black
-    display.setDefault("background", 0, 0, 0)
+    --Hide the status bar
+    display.setStatusBar(display.HiddenStatusBar)
 
-    CompLogo = display.newImageRect("Images/CompanyLogoAbishaJStars@2x.png", 600, 600)
-    Rocketship = display.newImageRect("Images/CompanyLogoAbishaJRocketship@2x.png", 400, 200)
+    -- set the background color
+    display.setDefault("background", 1, 1, 1)
+
+
+    -- logo image
+    logo = display.newImageRect("Images/CompanyLogoLeo.png", 700, 500)
+
+    -- set the x and y position of the logo
+    logo.x = display.contentWidth/2
+    logo.y = -300
+   
+    
+    -- create the bottom and set its position on the screen
+    bottom = display.newLine(500, 400, 0, 144)
+    bottom.x = display.contentCenterX
+    bottom.y = 768
+    bottom.isVisible = false
+
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( logo )
+    sceneGroup:insert (bottom)
 
 end -- function scene:create( event )
 
@@ -69,6 +95,7 @@ end -- function scene:create( event )
 
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
+
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
@@ -82,24 +109,25 @@ function scene:show( event )
     if ( phase == "will" ) then
        
     -----------------------------------------------------------------------------------------
-
+        -- start the physics engine
+        physics.start()
+    
     elseif ( phase == "did" ) then
-          DogBarkingSoundChannel = audio.play(DogBarkingSound)
-         RocketshipSoundChannel = audio.play(RocketshipSound)
 
-         -- set the initial x and y postion of CompanyLogo
-         CompLogo.x = 500
-         CompLogo.y = display.contentHeight/2
+        --Make the logo dynamic so that it will move
+        physics.addBody(logo, "dynamic", {density=0.04, friction=0})
 
-         -- set the initial x and y position of the Rocketship
-         Rocketship.x = 1024
-         Rocketship.y = 350
+        logo:applyForce( 0, 1000, logo.x, logo.y )
 
-         transition.to(Rocketship, {x=525, y=350, time=1500})
+        --make the bottom static so that it won't move
+        physics.addBody(bottom, "static")
+
+        -- Call the GameStart function as soon as we enter the frame.
+        SplashStart( )
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 3000, gotoMainMenu) 
-        timer.performWithDelay ( 3000, hideLogo)         
+        timer.performWithDelay ( 4500, gotoMainMenu)          
+        
     end
 
 end --function scene:show( event )
@@ -111,22 +139,23 @@ function scene:hide( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-    local phase = event.phase
+    local phase = event.phase 
 
-    -----------------------------------------------------------------------------------------
+    -- Called when the scene is still off screen (but is about to come on screen).
+    if ( phase == "will" ) then
 
-    -- Called when the scene is on screen (but is about to go off screen).
-    -- Insert code here to "pause" the scene.
-    -- Example: stop timers, stop animation, stop audio, etc.
-    if ( phase == "will" ) then  
+        --Make the logo dynamic so that it will move
+        physics.removeBody(logo)
 
-    -----------------------------------------------------------------------------------------
+        --make the bottom static so that it won't move
+        physics.removeBody(bottom)
+        
+    elseif ( phase == "did") then
 
-    -- Called immediately after scene goes off screen.
-    elseif ( phase == "did" ) then
-       
+        physics.stop()
     end
 
+    -----------------------------------------------------------------------------------------
 end --function scene:hide( event )
 
 -----------------------------------------------------------------------------------------
@@ -155,7 +184,6 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
--- moveship will be called over and over again
-Runtime:addEventListener("enterFrame", FadeinRocketship)
 -----------------------------------------------------------------------------------------
+
 return scene
