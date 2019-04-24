@@ -70,6 +70,9 @@ local congratulationText
 -- Displays text that says correct.
 local correct 
 
+-- Displays text that says incorrect.
+local incorrect 
+
 -- Displays the level text of time text
 local level1Text 
 

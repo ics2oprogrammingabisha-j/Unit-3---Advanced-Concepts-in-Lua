@@ -1,8 +1,8 @@
--- you_lose.lua
--- Created by: Gil Robern
--- Modified by: Your Name
--- Date: Month Day, Year
--- Description: This shows the player that they lost the game and plays a booing sound.
+-----------------------------------------------------------------------------------------
+--
+-- SceneTemplate.lua
+-- Scene Template (Composer API)
+--
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -25,21 +25,18 @@ sceneName = "you_win"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
--- LOCAL VARIABLES
+-- FORWARD REFERENCES
 -----------------------------------------------------------------------------------------
 
 -- local variables for the scene
 local bkg
 
+----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
------------------------------------------------------------------------------------------
--- GLOBAL SCENE FUNCTIONS
------------------------------------------------------------------------------------------
-
-
+--------------------------------------------------------------------------------------
 -- The function called when the screen doesn't exist
 function scene:create( event )
 
@@ -47,16 +44,20 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- Display background
-    bkg = display.newImage("Images/You Win Screen.png")
+    bkg = display.newImage("Images/YouWin.png")
     bkg.x = display.contentCenterX
     bkg.y = display.contentCenterY
     bkg.width = display.contentWidth
     bkg.height = display.contentHeight
-    -----------------------------------------------------------------------------------------     
-
+   
     -- Associating display objects with this scene 
     sceneGroup:insert( bkg )
-end
+  
+end    
+
+-----------------------------------------------------------------------------------------
+-- GLOBAL SCENE FUNCTIONS
+-----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
 
