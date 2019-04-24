@@ -28,8 +28,15 @@ sceneName = "level1_screen"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+
+local popSound = audio.loadSound("Sounds/Pop.mp3")
+local popSoundChannel
+-----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
+
 
 -- The local variables for this scene
 local bkg_image
@@ -140,15 +147,15 @@ local function ReplaceCharacter()
     character = display.newImageRect("Images/KickyKatRight.png", 100, 150)
     character.x = display.contentWidth * 0.5 / 8
     character.y = display.contentHeight  * 0.1 / 3
-    character.width = 75
-    character.height = 100
+    character.width = 70
+    character.height = 95
     character.myName = "KickyKat"
 
     -- intialize horizontal movement of character
     motionx = 0
 
     -- add physics body
-    physics.addBody( character, "dynamic", { density=0.5, friction=0.5, bounce=0.5, rotation=0 } )
+    physics.addBody( character, "dynamic", { density=0, friction=0.5, bounce=0, rotation=0 } )
 
     -- prevent character from being able to tip over
     character.isFixedRotation = true
@@ -370,7 +377,7 @@ function scene:create( event )
     bkg_image = display.newImageRect("Images/Level-1BKG.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentWidth / 2
     bkg_image.y = display.contentHeight / 2
-    
+
     -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )    
     
