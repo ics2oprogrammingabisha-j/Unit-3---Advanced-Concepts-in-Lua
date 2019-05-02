@@ -20,13 +20,13 @@ local scene = composer.newScene( sceneName )
 
 ---------------------------------------------------------------------------------------------------
 -- SOUNDS
---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 local DogBarkingSound = audio.loadSound( "Sounds/DogBarking.mp3") -- setting a variable to an mp3 file
 local DogBarkingSoundChannel
 local RocketshipSound = audio.loadSound( "Sounds/Rocketship.mp3") -- setting a variable to an mp3 file
 local RocketshipSoundChannel
 
-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 -- background image with width and height
@@ -97,6 +97,9 @@ function scene:show( event )
 
          transition.to(Rocketship, {x=525, y=350, time=1500})
 
+         -- moveship will be called over and over again
+        --Runtime:addEventListener("enterFrame", FadeinRocketship)
+
         -- Go to the main menu screen after the given time.
         timer.performWithDelay ( 3000, gotoMainMenu) 
         timer.performWithDelay ( 3000, hideLogo)         
@@ -155,7 +158,6 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
--- moveship will be called over and over again
-Runtime:addEventListener("enterFrame", FadeinRocketship)
+
 -----------------------------------------------------------------------------------------
 return scene
