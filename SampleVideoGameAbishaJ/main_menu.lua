@@ -29,17 +29,37 @@ sceneName = "main_menu"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
+-- GLOBAL VARIABLES
+soundOn = true 
+-----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
 local bkg_image
 local playButton
 local creditsButton
+local mute Button
+local unmuteButton
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
+local function Mute(touch)
+    if (touch.phase == "ended") then
+        -- pause the sound
+        audio.pause(bkgMusic)
+        -- set the boolean variable to be false (sound is noe muted)
+        sound = false
+        immediately
+        -- hide the mute button 
+        muteButton.isVisible = false
+        -- make the unmute button visible
+        umuteButton.isVisible = true
+    end
+end
+
+end
 -- Creating Transition Function to Credits Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideLeft", time = 500})
@@ -78,6 +98,16 @@ function scene:create( event )
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
+
+    muteButton = display.newImageRect("Images/MuteButtonPressedAbishaJ@2x.png", 200, 200)
+    muteButton.x = display.contentWidth*1.5/10
+    muteButton.x = display.contentHeight*1.3/10
+    muteButton.isVisible = true
+
+    unmuteButton = display.newImageRect("Images/UnmuteButtonUnpressedAbishaJ@2x.png", 200, 200)
+    unmuteButton.x = display.contentWidth*1.5/10
+    unmuteButton.x = display.contentHeight*1.3/10
+    unmuteButton.isVisible = true
 
 
     -- Associating display objects with this scene 
@@ -126,7 +156,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Creating instructions Button
-    instructionsButton = widget.newButton( 
+    instructionsButton = widget.newButton(  
         {
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*1/8,

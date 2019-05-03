@@ -81,7 +81,7 @@ function scene:create( event )
         -- height = 106,
 
         -- Setting Visual Properties
-        defaultFile = "Images/BackButtonUnpressedAbisha@2x.png",
+        defaultFile = "Images/BackButtonUnpressedAbishaJ@2x.png",
         overFile = "Images/BackButtonPressedAbishaJ@2x.png",
 
         -- Setting Functional Properties
