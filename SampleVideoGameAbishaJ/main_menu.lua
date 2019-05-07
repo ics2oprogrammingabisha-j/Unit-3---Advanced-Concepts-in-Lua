@@ -183,11 +183,12 @@ end -- function scene:create( event )
 
 
 
------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
-
+    
+    -----------------------------------------------------------------------------------------
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
@@ -206,7 +207,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
-        
+        bkgMusicChannel = 
 
     end
 
