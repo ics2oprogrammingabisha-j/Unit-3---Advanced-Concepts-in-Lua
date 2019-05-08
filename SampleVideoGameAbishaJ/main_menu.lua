@@ -38,7 +38,7 @@ soundOn = true
 local bkg_image
 local playButton
 local creditsButton
-local mute Button
+local muteButton
 local unmuteButton
 
 -----------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ local function Mute(touch)
         audio.pause(bkgMusic)
         -- set the boolean variable to be false (sound is noe muted)
         sound = false
-        immediately
+  
         -- hide the mute button 
         muteButton.isVisible = false
         -- make the unmute button visible
@@ -59,7 +59,6 @@ local function Mute(touch)
     end
 end
 
-end
 -- Creating Transition Function to Credits Page
 local function CreditsTransition( )       
     composer.gotoScene( "credits_screen", {effect = "slideLeft", time = 500})
@@ -207,7 +206,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
-        bkgMusicChannel = 
+        bkgMusicChannel = audio.play
 
     end
 
