@@ -29,8 +29,17 @@ sceneName = "main_menu"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+local BackgroundMusic = audio.loadSound( "Sounds/BackgroundMusic.mp3") -- setting a variable to an mp3 file
+local BackgroundMusicChannel = audio.play( BackgroundMusic, {channel=1, loops=-1} )
+
+
+-----------------------------------------------------------------------------------------
 -- GLOBAL VARIABLES
+-----------------------------------------------------------------------------------------
 soundOn = true 
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -44,20 +53,6 @@ local unmuteButton
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
-
-local function Mute(touch)
-    if (touch.phase == "ended") then
-        -- pause the sound
-        audio.pause(bkgMusic)
-        -- set the boolean variable to be false (sound is noe muted)
-        sound = false
-  
-        -- hide the mute button 
-        muteButton.isVisible = false
-        -- make the unmute button visible
-        umuteButton.isVisible = true
-    end
-end
 
 -- Creating Transition Function to Credits Page
 local function CreditsTransition( )       
@@ -98,17 +93,6 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
 
-    muteButton = display.newImageRect("Images/MuteButtonPressedAbishaJ@2x.png", 200, 200)
-    muteButton.x = display.contentWidth*1.5/10
-    muteButton.x = display.contentHeight*1.3/10
-    muteButton.isVisible = true
-
-    unmuteButton = display.newImageRect("Images/UnmuteButtonUnpressedAbishaJ@2x.png", 200, 200)
-    unmuteButton.x = display.contentWidth*1.5/10
-    unmuteButton.x = display.contentHeight*1.3/10
-    unmuteButton.isVisible = true
-
-
     -- Associating display objects with this scene 
     sceneGroup:insert( bkg_image )
 
@@ -124,7 +108,7 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight*7/8,
+            y = 350,
 
             -- Insert the images here
             defaultFile = "Images/PlayButtonUnpressedAbishaJ@2x.png",
@@ -134,14 +118,15 @@ function scene:create( event )
             onRelease = Level1ScreenTransition          
         } )
 
+playButton:scale(0.7, 0.7)
     -----------------------------------------------------------------------------------------
 
     -- Creating Credits Button
     creditsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*7/8,
-            y = display.contentHeight*7/8,
+            x = display.contentWidth/2,
+            y = 500,
 
             -- Insert the images here
             defaultFile = "Images/CreditsButtonUnpressedAbishaJ@2x.png",
@@ -150,7 +135,8 @@ function scene:create( event )
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition
         } ) 
-    
+
+creditsButton:scale(0.7, 0.7)
 
     -----------------------------------------------------------------------------------------
 
@@ -158,8 +144,8 @@ function scene:create( event )
     instructionsButton = widget.newButton(  
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*1/8,
-            y = display.contentHeight*7/8,
+            x = display.contentWidth/2,
+            y = 650,
 
             -- Insert the images here
             defaultFile = "Images/InstructionsButtonUnpressedAbishaJ@2x.png",
@@ -169,14 +155,14 @@ function scene:create( event )
             onRelease = InstructionsTransition
         } ) 
     
-    -----------------------------------------------------------------------------------------
+instructionsButton:scale(0.7, 0.7)
+
+ -----------------------------------------------------------------------------------------
 
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( instructionsButton )
-    
-    
 
 end -- function scene:create( event )   
 
@@ -206,7 +192,7 @@ function scene:show( event )
     -- Insert code here to make the scene come alive.
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
-        bkgMusicChannel = audio.play
+        BackgroundMusicChannel = audio.play (BackgroundMusic)
 
     end
 
@@ -230,7 +216,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-
+        BackgroundMusic = audio.stop()
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
@@ -264,5 +250,4 @@ scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
 -----------------------------------------------------------------------------------------
-
 return scene

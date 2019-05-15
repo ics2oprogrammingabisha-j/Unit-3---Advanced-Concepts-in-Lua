@@ -74,7 +74,7 @@ function scene:create( event )
     {
         -- Setting Position
         x = display.contentWidth*1/8,
-        y = display.contentHeight*15/16,
+        y = display.contentHeight*1/8,
 
         -- Setting Dimensions
         -- width = 1000,
@@ -89,6 +89,7 @@ function scene:create( event )
 
     } )
 
+backButton:scale(0.5, 0.5)
 
     -----------------------------------------------------------------------------------------
 

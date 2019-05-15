@@ -54,7 +54,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image and set it to the center of the screen
-    bkg_image = display.newImageRect("Images/Credits Screen.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/CreditsScreenCampbellW.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
@@ -75,21 +75,23 @@ function scene:create( event )
     {
         -- Setting Position
         x = display.contentWidth*1/8,
-        y = display.contentHeight*15/16,
+        y = display.contentHeight*1/8,
 
         -- Setting Dimensions
         -- width = 1000,
         -- height = 106,
 
         -- Setting Visual Properties
-        defaultFile = "Images/Back Button Unpressed.png",
-        overFile = "Images/Back Button Pressed.png",
+        defaultFile = "Images/BackButtonUnpressedAbishaJ@2x.png",
+        overFile = "Images/BackButtonPressedAbishaJ@2x.png",
 
         -- Setting Functional Properties
         onRelease = BackTransition
 
     } )
 
+
+backButton:scale(0.5, 0.5)
     -----------------------------------------------------------------------------------------
 
     -- Associating Buttons with this scene
